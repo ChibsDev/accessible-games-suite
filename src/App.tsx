@@ -1,12 +1,18 @@
+import Header from "./components/Header";
+
 function App() {
   return (
-    <div className="min-h-screen bg-gray-100 flex flex-col items-center justify-center gap-4">
-      <h1 className="text-4xl font-bold text-blue-600">
-        Accessible Games Suite
-      </h1>
-      <button className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
-        Test Button
-      </button>
+    <div className="min-h-screen bg-gray-100">
+      <Header />
+
+      <main className="container mx-auto px-4 py-8">
+        <div className="text-center">
+          <h2 className="text-2xl font-semibold text-gray-800 mb-4">
+            Welcome to the Platform
+          </h2>
+          <p className="text-gray-600">Games will appear here soon!</p>
+        </div>
+      </main>
     </div>
   );
 }
