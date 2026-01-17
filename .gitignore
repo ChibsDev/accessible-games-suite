@@ -27,3 +27,4 @@ dist-ssr
 # Chib files
 
 my_notes.md 
+src\components\Footer.tsx
