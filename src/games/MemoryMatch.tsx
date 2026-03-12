@@ -211,7 +211,16 @@ function MemoryMatch() {
                     : ''
                 }`}
               >
-                {card.isFlipped || card.isMatched ? card.symbol : '❓'}
+                {card.isMatched ? (
+                  <span className="flex flex-col items-center gap-1">
+                    <span>{card.symbol}</span>
+                    <span className="text-lg">✓</span>
+                  </span>
+                ) : card.isFlipped ? (
+                  card.symbol
+                ) : (
+                  '❓'
+                )}
               </button>
             ))}
           </div>

@@ -7,6 +7,12 @@ interface GameCardProps {
 
 function GameCard({ title, description, difficulty, onPlay }: GameCardProps) {
 
+  const difficultyIcons = {
+    Easy: '●',
+    Medium: '●●',
+    Hard: '●●●'
+  };
+
   const difficultyColours = {
     Easy: "bg-green-100 text-green-800",
     Medium: "bg-yellow-100 text-yellow-800",
@@ -17,10 +23,8 @@ function GameCard({ title, description, difficulty, onPlay }: GameCardProps) {
     <div className="bg-white rounded-lg shadow-md p-6 hover:shadow-xl transition-shadow">
       <div className="flex justify-between items-start mb-3">
         <h3 className="text-xl font-bold text-gray-800">{title}</h3>
-        <span
-          className={`px-3 py-1 rounded-full text-sm font-semibold ${difficultyColours[difficulty]}`}
-        >
-          {difficulty}
+        <span className={`px-3 py-1 rounded-full text-sm font-semibold ${difficultyColours[difficulty]}`}>
+          {difficultyIcons[difficulty]} {difficulty}
         </span>
       </div>
 
