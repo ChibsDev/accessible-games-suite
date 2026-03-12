@@ -2,9 +2,10 @@ interface GameCardProps {
   title: string;
   description: string;
   difficulty: "Easy" | "Medium" | "Hard";
+  onPlay: () => void
 }
 
-function GameCard({ title, description, difficulty }: GameCardProps) {
+function GameCard({ title, description, difficulty, onPlay }: GameCardProps) {
 
   const difficultyColours = {
     Easy: "bg-green-100 text-green-800",
@@ -25,7 +26,9 @@ function GameCard({ title, description, difficulty }: GameCardProps) {
 
       <p className="text-gray-600 mb-4">{description}</p>
 
-      <button className="w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+      <button
+       onClick={onPlay}
+       className="w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
         Play Game
       </button>
     </div>

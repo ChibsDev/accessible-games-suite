@@ -1,8 +1,30 @@
+import { useState } from "react";
 import Header from "./components/Header";
 import GameCard from "./components/GameCard";
 import Footer from "./components/Footer";
+import MemoryMatch from "./games/MemoryMatch";
 
 function App() {
+  const [currentGame, setCurrentGame] = useState<string | null>(null);
+
+  if (currentGame === "memory-match") {
+    return (
+      <div className="flex flex-col min-h-screen bg-gray-100">
+        <Header />
+        <main className="flex-1 container mx-auto px-4 py-8">
+          <button
+            onClick={() => setCurrentGame(null)}
+            className="mb-6 text-blue-600 hover:text-blue-700 flex items-center gap-2"
+          >
+            ← Back to Games
+          </button>
+          <MemoryMatch />
+        </main>
+        <Footer />
+      </div>
+    );
+  }
+
   return (
     <div className="flex flex-col min-h-screen bg-gray-100">
       <Header />
@@ -14,24 +36,28 @@ function App() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           <GameCard
-            title="Game One"
-            description="Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit.."
+            title="Memory Match"
+            description="Test your memory by matching pairs of cards. Includes audio cues and high contrast mode."
             difficulty="Easy"
+            onPlay={() => setCurrentGame("memory-match")}
           />
 
           <GameCard
-            title="Game Two"
-            description="Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit."
+            title="Word Puzzle"
+            description="Find words in a grid. Fully keyboard accessible with screen reader support."
             difficulty="Medium"
+            onPlay={() => alert("Coming soon!")}
           />
 
           <GameCard
-            title="Game Three"
-            description="Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit.."
+            title="Showdown Game"
+            description=" Have your wits about you."
             difficulty="Hard"
+            onPlay={() => alert("Coming soon!")}
           />
         </div>
       </main>
+
       <Footer />
     </div>
   );
