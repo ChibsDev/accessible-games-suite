@@ -158,11 +158,11 @@ function MemoryMatch() {
 
         <div className="flex gap-8 text-center">
           <div>
-            <p className="text-2xl font-bold text-blue-600">{moves}</p>
+            <p className="text-2xl font-bold text-blue-600" data-testid="moves-count">{moves}</p>
             <p className="text-sm text-gray-600">Moves</p>
           </div>
           <div>
-            <p className="text-2xl font-bold text-green-600">{matches}</p>
+            <p className="text-2xl font-bold text-green-600" data-testid="matches-count">{matches}</p>
             <p className="text-sm text-gray-600">Matches</p>
           </div>
         </div>
@@ -174,6 +174,7 @@ function MemoryMatch() {
         onKeyDown={handleKeyDown}
         role="application"
         aria-label="Memory match game board"
+        data-testid="game-board"
       >
         {checkGameComplete() ? (
           <div className="text-center py-12">
@@ -197,6 +198,9 @@ function MemoryMatch() {
               <button
                 key={card.id}
                 onClick={() => handleCardClick(card.id)}
+                data-testid={`card-${card.id}`}
+                data-matched={card.isMatched}
+                data-flipped={card.isFlipped}
                 className={`aspect-square rounded-lg text-4xl flex items-center justify-center focus:outline-none focus:ring-2 transition-colors ${
                   card.isMatched 
                     ? 'bg-green-600 cursor-default' 
