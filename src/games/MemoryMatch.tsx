@@ -144,7 +144,11 @@ function MemoryMatch() {
               <button
                 key={card.id}
                 onClick={() => handleCardClick(card.id)}
-                className="aspect-square bg-blue-600 rounded-lg text-4xl flex items-center justify-center hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors"
+                className={`aspect-square rounded-lg text-4xl flex items-center justify-center focus:outline-none focus:ring-2 transition-colors ${
+                card.isMatched 
+                  ? 'bg-green-600 cursor-default' 
+                  : 'bg-blue-600 hover:bg-blue-700 focus:ring-blue-500 cursor-pointer'
+              }`}
               >
                 {card.isFlipped || card.isMatched ? card.symbol : "❓"}
               </button>
