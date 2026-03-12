@@ -14,6 +14,7 @@ function MemoryMatch() {
   const [moves, setMoves] = useState(0);
   const [matches, setMatches] = useState(0);
   const [flippedCards, setFlippedCards] = useState<number[]>([]);
+  const [selectedCardIndex, setSelectedCardIndex] = useState(0)
 
   // Initialize the game when component mounts
   useEffect(() => {
@@ -32,6 +33,7 @@ function MemoryMatch() {
     setCards(shuffled);
     setMoves(0);
     setMatches(0);
+    setSelectedCardIndex(0);
   }
 
   function handleCardClick(cardId: number) {
@@ -90,6 +92,51 @@ function MemoryMatch() {
   return cards.length > 0 && cards.every((card) => card.isMatched);
   }
 
+  function handleKeyDown(event: React.KeyboardEvent) {
+  
+  if (checkGameComplete()) return
+
+  const totalCards = cards.length
+  const cols = 4  
+
+  switch (event.key) {
+    case 'ArrowRight':
+      event.preventDefault()
+      setSelectedCardIndex((prev) => (prev + 1) % totalCards)
+      break
+    
+    case 'ArrowLeft':
+      event.preventDefault()
+      setSelectedCardIndex((prev) => (prev - 1 + totalCards) % totalCards)
+      break
+    
+    case 'ArrowDown':
+      event.preventDefault()
+      setSelectedCardIndex((prev) => {
+        const newIndex = prev + cols
+        return newIndex < totalCards ? newIndex : prev
+      })
+      break
+    
+    case 'ArrowUp':
+      event.preventDefault()
+      setSelectedCardIndex((prev) => {
+        const newIndex = prev - cols
+        return newIndex >= 0 ? newIndex : prev
+      })
+      break
+    
+    case 'Enter':
+    case ' ':  // Space bar
+      event.preventDefault()
+      const selectedCard = cards[selectedCardIndex]
+      if (selectedCard) {
+        handleCardClick(selectedCard.id)
+      }
+      break
+  }
+}
+
   return (
     <div className="max-w-4xl mx-auto">
       <div className="bg-white rounded-lg shadow-lg p-6 mb-6">
@@ -121,7 +168,13 @@ function MemoryMatch() {
         </div>
       </div>
 
-      <div className="bg-white rounded-lg shadow-lg p-6">
+      <div 
+        className="bg-white rounded-lg shadow-lg p-6"
+        tabIndex={0}
+        onKeyDown={handleKeyDown}
+        role="application"
+        aria-label="Memory match game board"
+      >
         {checkGameComplete() ? (
           <div className="text-center py-12">
             <div className="text-6xl mb-4">🎉</div>
@@ -140,17 +193,21 @@ function MemoryMatch() {
           </div>
         ) : (
           <div className="grid grid-cols-4 gap-4">
-            {cards.map((card) => (
+            {cards.map((card, index) => (
               <button
                 key={card.id}
                 onClick={() => handleCardClick(card.id)}
                 className={`aspect-square rounded-lg text-4xl flex items-center justify-center focus:outline-none focus:ring-2 transition-colors ${
-                card.isMatched 
-                  ? 'bg-green-600 cursor-default' 
-                  : 'bg-blue-600 hover:bg-blue-700 focus:ring-blue-500 cursor-pointer'
-              }`}
+                  card.isMatched 
+                    ? 'bg-green-600 cursor-default' 
+                    : 'bg-blue-600 hover:bg-blue-700 focus:ring-blue-500 cursor-pointer'
+                } ${
+                  index === selectedCardIndex 
+                    ? 'ring-4 ring-yellow-400' 
+                    : ''
+                }`}
               >
-                {card.isFlipped || card.isMatched ? card.symbol : "❓"}
+                {card.isFlipped || card.isMatched ? card.symbol : '❓'}
               </button>
             ))}
           </div>
