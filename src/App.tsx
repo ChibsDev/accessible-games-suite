@@ -3,10 +3,27 @@ import Header from "./components/Header";
 import GameCard from "./components/GameCard";
 import Footer from "./components/Footer";
 import MemoryMatch from "./games/MemoryMatch";
+import ShowdownGame from './games/ShowdownGame';
 
 function App() {
   const [currentGame, setCurrentGame] = useState<string | null>(null);
-
+    if (currentGame === 'showdown') {
+    return (
+      <div className="flex flex-col min-h-screen bg-gray-100">
+        <Header />
+        <main className="flex-1 container mx-auto px-4 py-8">
+          <button
+            onClick={() => setCurrentGame(null)}
+            className="mb-6 text-blue-600 hover:text-blue-700 flex items-center gap-2"
+          >
+            ← Back to Games
+          </button>
+          <ShowdownGame />
+        </main>
+        <Footer />
+      </div>
+    )
+  }
   if (currentGame === "memory-match") {
     return (
       <div className="flex flex-col min-h-screen bg-gray-100">
@@ -51,9 +68,9 @@ function App() {
 
           <GameCard
             title="Showdown Game"
-            description=" Have your wits about you."
+            description="Test your reaction time in this quick-draw challenge. Visual and audio cues."
             difficulty="Hard"
-            onPlay={() => alert("Coming soon!")}
+            onPlay={() => setCurrentGame('showdown')}
           />
         </div>
       </main>
