@@ -3,6 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "description": "An accessible gaming platform with WCAG 2.1 AA compliance, featuring keyboard navigation, screen reader support, and inclusive design",
 "scripts": {
   "dev": "vite",
   "build": "tsc -b && vite build",
