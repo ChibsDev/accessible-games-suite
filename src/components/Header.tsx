@@ -5,7 +5,7 @@ function Header() {
         <h1 className="text-3xl font-bold">
           Accessible Games Suite
         </h1>
-        <p className="text-blue-100 mt-2">
+        <p className="text-white mt-2">
           Inclusive gaming for everyone
         </p>
       </div>

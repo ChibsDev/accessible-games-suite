@@ -14,7 +14,8 @@ function MemoryMatch() {
   const [moves, setMoves] = useState(0);
   const [matches, setMatches] = useState(0);
   const [flippedCards, setFlippedCards] = useState<number[]>([]);
-  const [selectedCardIndex, setSelectedCardIndex] = useState(0)
+  const [selectedCardIndex, setSelectedCardIndex] = useState(0);
+  const [lastAction, setLastAction] = useState<string>('');
 
   // Initialize the game when component mounts
   useEffect(() => {
@@ -37,27 +38,32 @@ function MemoryMatch() {
   }
 
   function handleCardClick(cardId: number) {
-    if (flippedCards.length === 2) return;
+  if (flippedCards.length === 2) return;
 
-    const clickedCard = cards.find((card) => card.id === cardId);
-    if (!clickedCard || clickedCard.isFlipped || clickedCard.isMatched) return;
+  const clickedCard = cards.find((card) => card.id === cardId);
+  if (!clickedCard || clickedCard.isFlipped || clickedCard.isMatched) return;
 
-    // Flip the card
-    const newCards = cards.map((card) =>
-      card.id === cardId ? { ...card, isFlipped: true } : card,
-    );
-    setCards(newCards);
+  // Flip the card
+  const newCards = cards.map((card) =>
+    card.id === cardId ? { ...card, isFlipped: true } : card,
+  );
+  setCards(newCards);
 
-    // Add this card to flipped cards
-    const newFlippedCards = [...flippedCards, cardId];
-    setFlippedCards(newFlippedCards);
+  // Add this card to flipped cards
+  const newFlippedCards = [...flippedCards, cardId];
+  setFlippedCards(newFlippedCards);
 
-    // If this is the second card, check for a match
-    if (newFlippedCards.length === 2) {
-      setMoves(moves + 1);
-      checkForMatch(newFlippedCards, newCards);
-    }
+  // Clear previous announcement when flipping first card of a new pair
+  if (newFlippedCards.length === 1) {
+    setLastAction('');
   }
+
+  // If this is the second card, check for a match
+  if (newFlippedCards.length === 2) {
+    setMoves(moves + 1);
+    checkForMatch(newFlippedCards, newCards);
+  }
+}
 
   function checkForMatch(flippedCardIds: number[], currentCards: Card[]) {
     const [firstId, secondId] = flippedCardIds;
@@ -75,7 +81,9 @@ function MemoryMatch() {
       setCards(newCards);
       setMatches(matches + 1);
       setFlippedCards([]);
+      setLastAction(`Match found! Total matches: ${matches + 1}`);
     } else {
+      setLastAction('Not a match');
       setTimeout(() => {
         const newCards = currentCards.map((card) =>
           card.id === firstId || card.id === secondId
@@ -84,6 +92,7 @@ function MemoryMatch() {
         );
         setCards(newCards);
         setFlippedCards([]);
+        setLastAction('');
       }, 1000); // 1 second delay
     }
   }
@@ -167,15 +176,23 @@ function MemoryMatch() {
           </div>
         </div>
       </div>
-
+      <div className="bg-white rounded-lg shadow-lg p-6">
+    <div 
+      role="status" 
+      aria-live="polite" 
+      aria-atomic="true"
+      className="sr-only"
+    >
+      {lastAction}
+    </div>
       <div 
-        className="bg-white rounded-lg shadow-lg p-6"
         tabIndex={0}
         onKeyDown={handleKeyDown}
         role="application"
         aria-label="Memory match game board"
         data-testid="game-board"
       >
+        
         {checkGameComplete() ? (
           <div className="text-center py-12">
             <div className="text-6xl mb-4">🎉</div>
@@ -194,23 +211,31 @@ function MemoryMatch() {
           </div>
         ) : (
           <div className="grid grid-cols-4 gap-4">
-            {cards.map((card, index) => (
-              <button
-                key={card.id}
-                onClick={() => handleCardClick(card.id)}
-                data-testid={`card-${card.id}`}
-                data-matched={card.isMatched}
-                data-flipped={card.isFlipped}
-                className={`aspect-square rounded-lg text-4xl flex items-center justify-center focus:outline-none focus:ring-2 transition-colors ${
-                  card.isMatched 
-                    ? 'bg-green-600 cursor-default' 
-                    : 'bg-blue-600 hover:bg-blue-700 focus:ring-blue-500 cursor-pointer'
-                } ${
-                  index === selectedCardIndex 
-                    ? 'ring-4 ring-yellow-400' 
-                    : ''
-                }`}
-              >
+           {cards.map((card, index) => (
+            <button
+              key={card.id}
+              onClick={() => handleCardClick(card.id)}
+              data-testid={`card-${card.id}`}
+              data-matched={card.isMatched}
+              data-flipped={card.isFlipped}
+              aria-label={
+                card.isMatched 
+                  ? `Matched card, ${card.symbol}` 
+                  : card.isFlipped 
+                  ? `Card showing ${card.symbol}` 
+                  : 'Hidden card'
+              }
+              className={`aspect-square rounded-lg text-4xl flex items-center justify-center focus:outline-none focus:ring-2 transition-colors ${
+                card.isMatched 
+                  ? 'bg-green-600 cursor-default' 
+                  : 'bg-blue-600 hover:bg-blue-700 focus:ring-blue-500 cursor-pointer'
+              } ${
+                index === selectedCardIndex 
+                  ? 'ring-4 ring-yellow-400' 
+                  : ''
+              }`}
+            >
+              
                 {card.isMatched ? (
                   <span className="flex flex-col items-center gap-1">
                     <span>{card.symbol}</span>
@@ -226,6 +251,7 @@ function MemoryMatch() {
           </div>
         )}
       </div>
+    </div>
     </div>
   );
 }
