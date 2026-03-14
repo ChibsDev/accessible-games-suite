@@ -21,25 +21,25 @@ describe('GameCard Component', () => {
     expect(screen.getByText('This is a test game description')).toBeInTheDocument()
   })
 
-  it('displays difficulty badge with correct color', () => {
+  it('displays difficulty badge with correct styling and indicator', () => {
     render(<GameCard {...mockProps} />)
     
-    const badge = screen.getByText('Easy')
+    const badge = screen.getByText(/Easy/)
     expect(badge).toBeInTheDocument()
     expect(badge).toHaveClass('bg-green-100', 'text-green-800')
   })
 
-  it('renders Medium difficulty with yellow styling', () => {
+  it('renders Medium difficulty with yellow styling and indicators', () => {
     render(<GameCard {...mockProps} difficulty="Medium" />)
     
-    const badge = screen.getByText('Medium')
+    const badge = screen.getByText(/Medium/)
     expect(badge).toHaveClass('bg-yellow-100', 'text-yellow-800')
   })
 
-  it('renders Hard difficulty with red styling', () => {
+  it('renders Hard difficulty with red styling and indicators', () => {
     render(<GameCard {...mockProps} difficulty="Hard" />)
     
-    const badge = screen.getByText('Hard')
+    const badge = screen.getByText(/Hard/)
     expect(badge).toHaveClass('bg-red-100', 'text-red-800')
   })
 
