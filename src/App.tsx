@@ -4,6 +4,7 @@ import GameCard from "./components/GameCard";
 import Footer from "./components/Footer";
 import MemoryMatch from "./games/MemoryMatch";
 import ShowdownGame from './games/ShowdownGame';
+import NumberGuess from './games/NumberGuess';
 
 function App() {
   const [currentGame, setCurrentGame] = useState<string | null>(null);
@@ -19,6 +20,23 @@ function App() {
             ← Back to Games
           </button>
           <ShowdownGame />
+        </main>
+        <Footer />
+      </div>
+    )
+  }
+    if (currentGame === 'number-guess') {
+    return (
+      <div className="flex flex-col min-h-screen bg-gray-100">
+        <Header />
+        <main className="flex-1 container mx-auto px-4 py-8">
+          <button
+            onClick={() => setCurrentGame(null)}
+            className="mb-6 text-blue-600 hover:text-blue-700 flex items-center gap-2"
+          >
+            ← Back to Games
+          </button>
+          <NumberGuess />
         </main>
         <Footer />
       </div>
@@ -60,10 +78,10 @@ function App() {
           />
 
           <GameCard
-            title="Word Puzzle"
-            description="Find words in a grid. Fully keyboard accessible with screen reader support."
-            difficulty="Medium"
-            onPlay={() => alert("Coming soon!")}
+            title="Number Guess"
+            description="Guess the secret number between 1-100. Classic game with hints and score tracking."
+            difficulty="Easy"
+            onPlay={() => setCurrentGame('number-guess')}
           />
 
           <GameCard
