@@ -139,6 +139,8 @@ type GameState =
 
 ---
 
+
+
 ## Accessibility Architecture
 
 ### Component-Level Accessibility
