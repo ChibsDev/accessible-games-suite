@@ -40,7 +40,7 @@ describe('ShowdownGame', () => {
     it('displays how to play instructions', () => {
       render(<ShowdownGame />)
       expect(screen.getByText(/Press "Start" to begin/i)).toBeInTheDocument()
-      expect(screen.getByText(/Wait for the "DRAW!" signal/i)).toBeInTheDocument()
+      expect(screen.getByText(/Wait for the "GO!" signal/i)).toBeInTheDocument()
       expect(screen.getByText(/Press SPACE as fast as you can/i)).toBeInTheDocument()
     })
 
@@ -131,7 +131,7 @@ describe('ShowdownGame', () => {
 
     it('displays warning about false starts', () => {
       render(<ShowdownGame />)
-      expect(screen.getByText(/Don't press before "DRAW!" or it's a false start!/i)).toBeInTheDocument()
+      expect(screen.getByText(/Don't press before "GO!" or it's a false start!/i)).toBeInTheDocument()
     })
   })
 })

@@ -94,179 +94,191 @@ function ShowdownGame() {
   }, [gameState, attempts, bestTime]) // Dependencies so handleSpacePress has current values
 
   return (
-  <div className="min-h-screen bg-gradient-to-b from-orange-100 via-yellow-50 to-orange-100 py-8">
-    <div className="max-w-7xl mx-auto relative px-4">
-      {/* Left Cowboy Silhouette */}
-      <div 
-        className="hidden lg:block absolute left-0 top-1/2 -translate-y-1/2 w-64 h-96"
-        style={{
-          backgroundImage: "url('/images/duel-silhouette.png')",
-          backgroundPosition: 'left center',
-          backgroundSize: 'auto 300px',
-          backgroundRepeat: 'no-repeat'
-        }}
-        aria-hidden="true"
-      />
-
-      {/* Right Cowboy Silhouette */}
-      <div 
-        className="hidden lg:block absolute right-0 top-1/2 -translate-y-1/2 w-64 h-96"
-        style={{
-          backgroundImage: "url('/images/duel-silhouette.png')",
-          backgroundPosition: 'right center',
-          backgroundSize: 'auto 300px',
-          backgroundRepeat: 'no-repeat'
-        }}
-        aria-hidden="true"
-      />
-
-      {/* Center Game Content */}
-      <div className="max-w-4xl mx-auto relative z-10">
-        {/* Stats Bar */}
-        <div className="bg-amber-50 border-4 border-amber-900 rounded-lg shadow-2xl p-6 mb-6">
-          <h2 className="text-3xl font-bold text-amber-900 mb-4 text-center font-serif">
-            ⭐ SHOWDOWN CHALLENGE ⭐
-          </h2>
-          
-          <div className="flex gap-8 text-center justify-center">
-            <div>
-              <p className="text-2xl font-bold text-blue-600" data-testid="attempts-count">
-                {attempts}
-              </p>
-              <p className="text-sm text-gray-600">Attempts</p>
-            </div>
-            <div>
-              <p className="text-2xl font-bold text-green-600" data-testid="best-time">
-                {bestTime !== null ? `${bestTime}ms` : '---'}
-              </p>
-              <p className="text-sm text-gray-600">Best Time</p>
-            </div>
+    <div className="max-w-4xl mx-auto">
+      {/* Stats Card - Modern Design */}
+      <div className="bg-gradient-to-br from-white to-purple-50 rounded-2xl shadow-lg p-8 mb-6 border border-purple-100">
+        <h2 className="text-4xl font-black text-gray-900 mb-6 text-center bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
+          ⚡ Showdown Challenge
+        </h2>
+        
+        <div className="flex gap-6 justify-center">
+          <div className="bg-gradient-to-br from-purple-50 to-pink-50 rounded-xl p-6 min-w-[140px] text-center border border-purple-200">
+            <p className="text-4xl font-black text-purple-600" data-testid="attempts-count">
+              {attempts}
+            </p>
+            <p className="text-sm font-bold text-gray-600 mt-2">Attempts</p>
+          </div>
+          <div className="bg-gradient-to-br from-emerald-50 to-teal-50 rounded-xl p-6 min-w-[140px] text-center border border-emerald-200">
+            <p className="text-4xl font-black text-emerald-600" data-testid="best-time">
+              {bestTime !== null ? `${bestTime}ms` : '---'}
+            </p>
+            <p className="text-sm font-bold text-gray-600 mt-2">Best Time</p>
           </div>
         </div>
+      </div>
 
-        {/* Screen reader announcements */}
-        <div 
-          role="status" 
-          aria-live="polite" 
-          className="sr-only"
-        >
-          {gameState === 'ready' && 'Get ready to react'}
-          {gameState === 'waiting' && 'Wait for the signal'}
-          {gameState === 'go' && 'Go now!'}
-          {gameState === 'false-start' && 'False start! You pressed too early'}
-          {gameState === 'result' && reactionTime && `Your reaction time: ${reactionTime} milliseconds`}
-        </div>
+      {/* Screen reader announcements */}
+      <div 
+        role="status" 
+        aria-live="polite" 
+        className="sr-only"
+      >
+        {gameState === 'ready' && 'Get ready to react'}
+        {gameState === 'waiting' && 'Wait for the signal'}
+        {gameState === 'go' && 'Go now!'}
+        {gameState === 'false-start' && 'False start! You pressed too early'}
+        {gameState === 'result' && reactionTime && `Your reaction time: ${reactionTime} milliseconds`}
+      </div>
 
-        {/* Game Area */}
-        <div 
-          className="bg-amber-50/95 backdrop-blur-sm border-4 border-amber-900 rounded-lg shadow-2xl p-12 min-h-96 flex items-center justify-center"
-          role="application"
-          aria-label="Showdown game area"
-          tabIndex={0}
-          data-testid="game-area"
-        >
-          {gameState === 'instructions' && (
-            <div className="text-center">
-              <h3 className="text-4xl font-bold text-gray-800 mb-4">
-                Quick Draw Challenge
-              </h3>
-              <p className="text-xl text-gray-600 mb-6">
-                Test your reaction time!
-              </p>
-              <div className="bg-gray-50 rounded-lg p-6 mb-8 text-left max-w-md mx-auto">
-                <h4 className="font-bold text-gray-800 mb-3">How to Play:</h4>
-                <ol className="space-y-2 text-gray-700">
-                  <li>1. Press "Start" to begin</li>
-                  <li>2. Wait for the "DRAW!" signal</li>
-                  <li>3. Press SPACE as fast as you can</li>
-                  <li>4. See your reaction time</li>
-                </ol>
-                <p className="mt-4 text-sm text-gray-600">
-                  ⚠️ Don't press before "DRAW!" or it's a false start!
+      {/* Game Area */}
+      <div 
+        className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl p-12 border border-gray-200/50 min-h-96 flex items-center justify-center"
+        role="application"
+        aria-label="Showdown game area"
+        tabIndex={0}
+        data-testid="game-area"
+      >
+        {gameState === 'instructions' && (
+          <div className="text-center">
+            <h3 className="text-4xl font-bold text-gray-900 mb-4">
+              Quick Draw Challenge
+            </h3>
+            <p className="text-xl text-gray-600 mb-8">
+              Test your reaction time!
+            </p>
+            <div className="bg-gradient-to-br from-gray-50 to-purple-50 rounded-xl p-8 mb-8 text-left max-w-md mx-auto border border-purple-100">
+              <h4 className="font-bold text-gray-800 mb-4 text-lg">How to Play:</h4>
+              <ol className="space-y-3 text-gray-700">
+                <li className="flex items-start gap-3">
+                  <span className="text-purple-600 font-bold">1.</span>
+                  <span>Press "Start" to begin</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <span className="text-purple-600 font-bold">2.</span>
+                  <span>Wait for the "GO!" signal</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <span className="text-purple-600 font-bold">3.</span>
+                  <span>Press SPACE as fast as you can</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <span className="text-purple-600 font-bold">4.</span>
+                  <span>See your reaction time</span>
+                </li>
+              </ol>
+              <div className="mt-6 p-4 bg-amber-50 rounded-lg border border-amber-200">
+                <p className="text-sm text-amber-800 font-medium">
+                  ⚠️ Don't press before "GO!" or it's a false start!
                 </p>
               </div>
-              <button
-                onClick={startGame}
-                className="px-8 py-4 bg-blue-600 text-white text-xl font-bold rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-500"
-              >
-                Start Game
-              </button>
             </div>
-          )}
+            <button
+              onClick={startGame}
+              className="px-8 py-4 bg-gradient-to-r from-purple-600 to-pink-600 text-white text-xl font-bold rounded-xl hover:from-purple-700 hover:to-pink-700 transform hover:scale-105 transition-all duration-200 shadow-lg hover:shadow-xl focus:outline-none focus:ring-4 focus:ring-purple-300"
+            >
+              Start Game
+            </button>
+          </div>
+        )}
 
-          {gameState === 'ready' && (
-            <div className="text-center">
-              <h3 className="text-5xl font-bold text-gray-800">
-                Get Ready...
-              </h3>
-              <p className="text-xl text-gray-600 mt-4">
-                Press SPACE when you see DRAW!
-              </p>
-            </div>
-          )}
-
-          {gameState === 'waiting' && (
-            <div className="text-center">
-              <h3 className="text-5xl font-bold text-yellow-600">
-                Wait for it...
-              </h3>
-            </div>
-          )}
-
-          {gameState === 'go' && (
-            <div className="text-center bg-red-600 -m-12 flex items-center justify-center min-h-96 w-full rounded-lg border-4 border-amber-900 shadow-inner">
-              <div className="flex flex-col items-center">
-                <h3 className="text-9xl font-black text-yellow-300 animate-pulse drop-shadow-2xl">
-                  DRAW!
-                </h3>
-                <p className="text-4xl text-white font-bold mt-4">🔫</p>
+        {gameState === 'ready' && (
+          <div className="text-center">
+            <div className="mb-6">
+              <div className="inline-block p-8 bg-gradient-to-br from-blue-100 to-indigo-100 rounded-full animate-pulse">
+                <span className="text-6xl">👁️</span>
               </div>
             </div>
-          )}
+            <h3 className="text-5xl font-black text-gray-900 mb-4">
+              Get Ready...
+            </h3>
+            <p className="text-xl text-gray-600">
+              Press SPACE when you see GO!
+            </p>
+          </div>
+        )}
 
-          {gameState === 'false-start' && (
-            <div className="text-center">
-              <h3 className="text-5xl font-bold text-red-600 mb-4">
-                False Start!
-              </h3>
-              <p className="text-xl text-gray-600 mb-8">
-                You pressed too early. Wait for the DRAW signal!
-              </p>
-              <button
-                onClick={startGame}
-                className="px-8 py-4 bg-blue-600 text-white text-xl font-bold rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-500"
-              >
-                Try Again
-              </button>
+        {gameState === 'waiting' && (
+          <div className="text-center">
+            <div className="mb-6">
+              <div className="inline-block p-8 bg-gradient-to-br from-amber-100 to-yellow-100 rounded-full animate-pulse">
+                <span className="text-6xl">⏳</span>
+              </div>
             </div>
-          )}
+            <h3 className="text-5xl font-black text-amber-600">
+              Wait for it...
+            </h3>
+          </div>
+        )}
 
-          {gameState === 'result' && reactionTime !== null && (
-            <div className="text-center">
-              <h3 className="text-4xl font-bold text-gray-800 mb-4">
-                Your Time
+        {gameState === 'go' && (
+          <div className="text-center -m-12 flex items-center justify-center min-h-96 w-full rounded-2xl bg-gradient-to-br from-emerald-400 via-green-500 to-teal-500 shadow-2xl border-4 border-white">
+            <div className="flex flex-col items-center gap-6">
+              <div className="p-8 bg-white/20 rounded-full backdrop-blur-sm animate-bounce">
+                <span className="text-8xl">⚡</span>
+              </div>
+              <h3 className="text-9xl font-black text-white drop-shadow-2xl animate-pulse">
+                GO!
               </h3>
-              <p className="text-7xl font-black text-blue-600 mb-6">
-                {reactionTime}ms
-              </p>
-              <p className="text-2xl text-gray-600 mb-8">
-                {reactionTime < 200 ? '🏆 Lightning Fast!' : 
-                 reactionTime < 300 ? '⚡ Great Reflexes!' :
-                 reactionTime < 400 ? '👍 Good Job!' :
-                 '🎯 Keep Practicing!'}
-              </p>
-              <button
-                onClick={startGame}
-                className="px-8 py-4 bg-green-600 text-white text-xl font-bold rounded-lg hover:bg-green-700 focus:outline-none focus:ring-4 focus:ring-green-500"
-              >
-                Play Again
-              </button>
             </div>
-          )}
-        </div>
+          </div>
+        )}
+
+        {gameState === 'false-start' && (
+          <div className="text-center">
+            <div className="mb-6">
+              <div className="inline-block p-8 bg-gradient-to-br from-red-100 to-rose-100 rounded-full">
+                <span className="text-6xl">❌</span>
+              </div>
+            </div>
+            <h3 className="text-5xl font-black text-red-600 mb-4">
+              False Start!
+            </h3>
+            <p className="text-xl text-gray-600 mb-8">
+              You pressed too early. Wait for the GO signal!
+            </p>
+            <button
+              onClick={startGame}
+              className="px-8 py-4 bg-gradient-to-r from-purple-600 to-pink-600 text-white text-xl font-bold rounded-xl hover:from-purple-700 hover:to-pink-700 transform hover:scale-105 transition-all duration-200 shadow-lg hover:shadow-xl focus:outline-none focus:ring-4 focus:ring-purple-300"
+            >
+              Try Again
+            </button>
+          </div>
+        )}
+
+        {gameState === 'result' && reactionTime !== null && (
+          <div className="text-center">
+            <div className="mb-6">
+              <div className="inline-block p-8 bg-gradient-to-br from-blue-100 to-indigo-100 rounded-full">
+                <span className="text-6xl">
+                  {reactionTime < 200 ? '🏆' : 
+                  reactionTime < 300 ? '⚡' :
+                  reactionTime < 400 ? '👍' :
+                  '🎯'}
+                </span>
+              </div>
+            </div>
+            <h3 className="text-3xl font-bold text-gray-700 mb-4">
+              Your Time
+            </h3>
+            <p className="text-8xl font-black bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-6">
+              {reactionTime}ms
+            </p>
+            <p className="text-2xl font-semibold text-gray-600 mb-8">
+              {reactionTime < 200 ? '🏆 Lightning Fast!' : 
+              reactionTime < 300 ? '⚡ Great Reflexes!' :
+              reactionTime < 400 ? '👍 Good Job!' :
+              '🎯 Keep Practicing!'}
+            </p>
+            <button
+              onClick={startGame}
+              className="px-8 py-4 bg-gradient-to-r from-emerald-600 to-teal-600 text-white text-xl font-bold rounded-xl hover:from-emerald-700 hover:to-teal-700 transform hover:scale-105 transition-all duration-200 shadow-lg hover:shadow-xl focus:outline-none focus:ring-4 focus:ring-emerald-300"
+            >
+              Play Again
+            </button>
+          </div>
+        )}
       </div>
     </div>
-  </div>
   )
 }
 
