@@ -5,8 +5,8 @@ import Header from './Header'
 describe('Header Component', () => {
   it('renders the platform title', () => {
     render(<Header />)
-    
-    const title = screen.getByText('Accessible Games Suite')
+
+    const title = screen.getByText('Accessible Games')
     expect(title).toBeInTheDocument()
   })
 

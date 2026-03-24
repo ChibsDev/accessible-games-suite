@@ -1,4 +1,4 @@
-import { render, screen, waitFor } from '@testing-library/react'
+import { render, screen, waitFor, fireEvent } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { describe, it, expect, beforeEach } from 'vitest'
 import MemoryMatch from './MemoryMatch'
@@ -72,15 +72,28 @@ describe('MemoryMatch Game', () => {
     })
 
     it('prevents clicking more than 2 cards at once', async () => {
-      const user = userEvent.setup()
-      const cards = screen.getAllByRole('button').filter(btn => btn.textContent === '❓')
+      const { unmount } = render(<MemoryMatch />)
       
-      await user.click(cards[0])
-      await user.click(cards[1])
-      await user.click(cards[2])  // This should be ignored
+      const cards = screen.getAllByRole('button', { name: /Hidden card/i })
+
+      // Click first two cards quickly
+      fireEvent.click(cards[0])
+      fireEvent.click(cards[1])
+
+      // Try to click a third card immediately
+      fireEvent.click(cards[2])
+
+      // Wait a bit for state to settle
+      await waitFor(() => {
+        const movesCounts = screen.getAllByTestId('moves-count')
+        expect(movesCounts[0]).toHaveTextContent('1')
+      })
+
+      // Verify still only 1 move (third click was ignored)
+      const movesCounts = screen.getAllByTestId('moves-count')
+      expect(movesCounts[0]).toHaveTextContent('1')
       
-      // Still only 1 move
-      expect(screen.getByText('1', { selector: '.text-blue-600' })).toBeInTheDocument()
+      unmount()
     })
   })
 

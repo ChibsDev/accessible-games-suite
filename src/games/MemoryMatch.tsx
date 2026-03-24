@@ -147,44 +147,46 @@ function MemoryMatch() {
 }
 
   return (
-    <div className="max-w-4xl mx-auto">
-      <div className="bg-white rounded-lg shadow-lg p-6 mb-6">
-        <div className="flex justify-between items-start mb-4">
-          <div>
-            <h2 className="text-3xl font-bold text-gray-800 mb-2">
-              Memory Match
-            </h2>
-            <p className="text-gray-600">Find all matching pairs of cards!</p>
-          </div>
-
-          <button
-            onClick={initializeGame}
-            className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500"
-          >
-            New Game
-          </button>
+  <div className="max-w-4xl mx-auto">
+    <div className="bg-gradient-to-br from-white to-indigo-50 rounded-2xl shadow-lg p-8 mb-6 border border-indigo-100">
+      <div className="flex justify-between items-start mb-6">
+        <div>
+          <h2 className="text-4xl font-black text-gray-900 mb-2 bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
+            Memory Match
+          </h2>
+          <p className="text-gray-600 font-medium">Find all matching pairs of cards!</p>
         </div>
 
-        <div className="flex gap-8 text-center">
-          <div>
-            <p className="text-2xl font-bold text-blue-600" data-testid="moves-count">{moves}</p>
-            <p className="text-sm text-gray-600">Moves</p>
-          </div>
-          <div>
-            <p className="text-2xl font-bold text-green-600" data-testid="matches-count">{matches}</p>
-            <p className="text-sm text-gray-600">Matches</p>
-          </div>
+        <button
+          onClick={initializeGame}
+          className="px-6 py-3 bg-gradient-to-r from-emerald-600 to-teal-600 text-white font-bold rounded-xl hover:from-emerald-700 hover:to-teal-700 transform hover:scale-105 transition-all duration-200 shadow-md hover:shadow-lg focus:outline-none focus:ring-4 focus:ring-emerald-300"
+        >
+          New Game
+        </button>
+      </div>
+
+      <div className="flex gap-6 justify-center">
+        <div className="bg-gradient-to-br from-indigo-50 to-purple-50 rounded-xl p-6 min-w-[140px] text-center border border-indigo-200">
+          <p className="text-4xl font-black text-indigo-600" data-testid="moves-count">{moves}</p>
+          <p className="text-sm font-bold text-gray-600 mt-2">Moves</p>
+        </div>
+        <div className="bg-gradient-to-br from-emerald-50 to-teal-50 rounded-xl p-6 min-w-[140px] text-center border border-emerald-200">
+          <p className="text-4xl font-black text-emerald-600" data-testid="matches-count">{matches}</p>
+          <p className="text-sm font-bold text-gray-600 mt-2">Matches</p>
         </div>
       </div>
-      <div className="bg-white rounded-lg shadow-lg p-6">
-    <div 
-      role="status" 
-      aria-live="polite" 
-      aria-atomic="true"
-      className="sr-only"
-    >
-      {lastAction}
     </div>
+
+    <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl p-8 border border-gray-200/50">
+      <div 
+        role="status" 
+        aria-live="polite" 
+        aria-atomic="true"
+        className="sr-only"
+      >
+        {lastAction}
+      </div>
+      
       <div 
         tabIndex={0}
         onKeyDown={handleKeyDown}
@@ -192,8 +194,8 @@ function MemoryMatch() {
         aria-label="Memory match game board"
         data-testid="game-board"
       >
-        
         {checkGameComplete() ? (
+          // Victory Screen
           <div className="text-center py-12">
             <div className="text-6xl mb-4">🎉</div>
             <h3 className="text-3xl font-bold text-gray-800 mb-2">
@@ -204,56 +206,64 @@ function MemoryMatch() {
             </p>
             <button
               onClick={initializeGame}
-              className="px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500"
+              className="px-8 py-4 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-bold rounded-xl hover:from-indigo-700 hover:to-purple-700 transform hover:scale-105 transition-all duration-200 shadow-lg hover:shadow-xl focus:outline-none focus:ring-4 focus:ring-indigo-300"
             >
               Play Again
             </button>
           </div>
         ) : (
+          // Card Grid
           <div className="grid grid-cols-4 gap-4">
-           {cards.map((card, index) => (
-            <button
-              key={card.id}
-              onClick={() => handleCardClick(card.id)}
-              data-testid={`card-${card.id}`}
-              data-matched={card.isMatched}
-              data-flipped={card.isFlipped}
-              aria-label={
-                card.isMatched 
-                  ? `Matched card, ${card.symbol}` 
-                  : card.isFlipped 
-                  ? `Card showing ${card.symbol}` 
-                  : 'Hidden card'
-              }
-              className={`aspect-square rounded-lg text-4xl flex items-center justify-center focus:outline-none focus:ring-2 transition-colors ${
-                card.isMatched 
-                  ? 'bg-green-600 cursor-default' 
-                  : 'bg-blue-600 hover:bg-blue-700 focus:ring-blue-500 cursor-pointer'
-              } ${
-                index === selectedCardIndex 
-                  ? 'ring-4 ring-yellow-400' 
-                  : ''
-              }`}
-            >
+            {cards.map((card, index) => {
+              const isSelected = index === selectedCardIndex;
               
-                {card.isMatched ? (
-                  <span className="flex flex-col items-center gap-1">
-                    <span>{card.symbol}</span>
-                    <span className="text-lg">✓</span>
-                  </span>
-                ) : card.isFlipped ? (
-                  card.symbol
-                ) : (
-                  '❓'
-                )}
-              </button>
-            ))}
+              return (
+                <button
+                  key={card.id}
+                  onClick={() => handleCardClick(card.id)}
+                  data-testid={`card-${card.id}`}
+                  data-matched={card.isMatched}
+                  data-flipped={card.isFlipped}
+                  aria-label={
+                    card.isMatched 
+                      ? `Matched card, ${card.symbol}` 
+                      : card.isFlipped 
+                      ? `Card showing ${card.symbol}` 
+                      : 'Hidden card'
+                  }
+                  className={`
+                    aspect-square rounded-xl font-bold text-4xl
+                    flex items-center justify-center
+                    transition-all duration-300 transform
+                    ${card.isMatched 
+                      ? 'bg-gradient-to-br from-emerald-400 to-teal-500 text-white scale-95 shadow-inner cursor-default' 
+                      : card.isFlipped 
+                        ? 'bg-gradient-to-br from-indigo-500 to-purple-600 text-white shadow-lg scale-105' 
+                        : 'bg-gradient-to-br from-gray-100 to-gray-200 hover:from-gray-200 hover:to-gray-300 shadow-md hover:shadow-lg hover:scale-105 cursor-pointer'
+                    }
+                    ${isSelected ? 'ring-4 ring-yellow-400 ring-offset-2' : ''}
+                    focus:outline-none focus:ring-4 focus:ring-indigo-400 focus:ring-offset-2
+                  `}
+                >
+                  {card.isMatched ? (
+                    <span className="flex flex-col items-center gap-1">
+                      <span>{card.symbol}</span>
+                      <span className="text-xl">✓</span>
+                    </span>
+                  ) : card.isFlipped ? (
+                    card.symbol
+                  ) : (
+                    '❓'
+                  )}
+                </button>
+              );
+            })}
           </div>
         )}
       </div>
     </div>
-    </div>
-  );
+  </div>
+);
 }
 
 export default MemoryMatch;

@@ -10,7 +10,7 @@ function App() {
   const [currentGame, setCurrentGame] = useState<string | null>(null);
     if (currentGame === 'showdown') {
     return (
-      <div className="flex flex-col min-h-screen bg-gray-100">
+      <div className="flex flex-col min-h-screen bg-gradient-to-br from-gray-50 via-white to-indigo-50">
         <Header />
         <main className="flex-1 container mx-auto px-4 py-8">
           <button
@@ -64,12 +64,17 @@ function App() {
     <div className="flex flex-col min-h-screen bg-gray-100">
       <Header />
 
-      <main className="flex-1 container mx-auto px-4 py-8">
-        <h2 className="text-2xl font-bold text-gray-800 mb-6">
-          Available Games
-        </h2>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <main className="flex-1 container mx-auto px-6 py-12">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-12">
+            <h2 className="text-4xl font-bold text-gray-900 mb-4">
+              Choose Your Game
+            </h2>
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+              All games are fully keyboard accessible and optimized for screen readers
+            </p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           <GameCard
             title="Memory Match"
             description="Test your memory by matching pairs of cards. Includes audio cues and high contrast mode."
@@ -90,8 +95,9 @@ function App() {
             difficulty="Hard"
             onPlay={() => setCurrentGame('showdown')}
           />
-        </div>
-      </main>
+       </div>
+    </div>
+  </main>
 
       <Footer />
     </div>

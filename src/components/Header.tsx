@@ -1,13 +1,15 @@
 function Header() {
   return (
-    <header className="bg-blue-600 text-white shadow-lg">
+    <header className="bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 shadow-lg">
       <div className="container mx-auto px-4 py-6">
-        <h1 className="text-3xl font-bold">
-          Accessible Games Suite
-        </h1>
-        <p className="text-white mt-2">
-          Inclusive gaming for everyone
-        </p>
+        <div className="flex flex-col items-center gap-2">
+          <h1 className="text-4xl font-black text-white tracking-tight">
+            Accessible Games
+          </h1>
+          <p className="text-indigo-100 text-sm font-medium tracking-wide">
+            Inclusive gaming for everyone
+          </p>
+        </div>
       </div>
     </header>
   )
